@@ -10,18 +10,26 @@ const router = express.Router();
     
     router.get('/list-items', async (req, res) => {
         try {
-            const items = await ListItem.find();
+            const{ username } = req.headers;
+            if(!username){
+                res.status(401).json({error: 'User name is required'});
+            }
+            const items = await ListItem.find({
+                username,
+            });
             return res.json((items));
 
         } catch (error) {
             res.status(404).json({error});
         }
-
-        
     });
     
     router.post('/list-items', async (req, res) => {
         try {
+            const{ username } = req.headers;
+            if(!username){
+                res.status(401).json({error: 'User name is required'});
+            }
             const { name, quantity, checked } = req.body;
             
             if(!name || name.length < 3){
@@ -36,6 +44,7 @@ const router = express.Router();
                 name,
                 quantity,
                 checked: checked || false,
+                username,
             });
 
             return res.json(newItem);

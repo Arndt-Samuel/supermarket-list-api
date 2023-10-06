@@ -48,6 +48,10 @@ npm install
 npm run start:dev
 ```
 
+### Important Rule
+
+Is necessary send the username property at the header when you make a request
+
 ### Available endpoints
 
 - [GET]/list-items
